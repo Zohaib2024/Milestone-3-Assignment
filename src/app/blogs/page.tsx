@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default async function Page() {
   // Use environment variable for dynamic API URL
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"; // Default to localhost for local development
+  const API_URL = process.env.NEXT_PUBLIC_API_URL; // Default to localhost for local development
 
   let data = await fetch(`${API_URL}/api/users`);
   let posts = await data.json();
