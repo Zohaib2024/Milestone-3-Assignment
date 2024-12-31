@@ -1,10 +1,10 @@
-import About from "./components/About";
 import BlogCard from "./components/BlogCard";
-import Contact from "./components/Contact";
 import Hero from "./components/Hero";
 
 export default async function Home() {
-  const data = await fetch(`http://localhost:3000/api/users`);
+  // Use environment variable for API URL
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const data = await fetch(`${API_URL}/api/users`);
   const posts = await data.json();
 
   return (
