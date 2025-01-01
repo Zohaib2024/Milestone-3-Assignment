@@ -6,7 +6,7 @@ export default async function Home() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const data = await fetch(`${API_URL}/api/users`);
   const posts = await data.json();
-
+  console.log(process.env.NEXT_PUBLIC_API_URL);
   return (
     <div>
       <title>Blogs</title>

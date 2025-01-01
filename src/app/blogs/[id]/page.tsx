@@ -44,10 +44,10 @@ export default async function Page({ params }: PageProps) {
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">
             <Image
-              className="h-96 w-full mb-5"
+              className="h-auto w-full mb-5"
               src={user.img}
               width={200}
-              height={500}
+              height={100}
               alt={user.name}
             />
             About This Topic
@@ -59,9 +59,7 @@ export default async function Page({ params }: PageProps) {
         <CommentSection />
         <div className="mt-6 flex justify-center">
           <a
-            href={`${
-              process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-            }/blogs`}
+            href="/"
             className="bg-black text-white px-6 py-2 rounded-lg shadow hover:bg-gray-600 transition"
           >
             Go Back to Blogs
