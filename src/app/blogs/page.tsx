@@ -61,7 +61,7 @@ export default function Page() {
                     />
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    {post.attributes.name}
+                    blog {post.id}
                   </h3>
                   <p className="text-gray-600">{post.attributes.description}</p>
                 </div>

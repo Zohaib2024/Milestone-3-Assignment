@@ -88,7 +88,7 @@ export default function Page({ params }: PageProps) {
             height={400}
             alt={photo.title}
           />
-          About This Photo
+          About This Blog
         </h2>
         <p className="text-gray-800 leading-relaxed text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, harum
@@ -102,7 +102,7 @@ export default function Page({ params }: PageProps) {
           href="/"
           className="bg-black text-white px-6 py-2 rounded-lg shadow hover:bg-gray-600 transition"
         >
-          Go Back to Photos
+          Go Back to Blogs
         </a>
       </div>
     </div>
