@@ -59,7 +59,9 @@ export default async function Page({ params }: PageProps) {
         <CommentSection />
         <div className="mt-6 flex justify-center">
           <a
-            href={`${process.env.NEXT_PUBLIC_API_URL}/blogs`}
+            href={`${
+              process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+            }/blogs`}
             className="bg-black text-white px-6 py-2 rounded-lg shadow hover:bg-gray-600 transition"
           >
             Go Back to Blogs
