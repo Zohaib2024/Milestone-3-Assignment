@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
+// Define the props interface for BlogCard component
 interface BlogCardProps {
   id: number;
   img: string;

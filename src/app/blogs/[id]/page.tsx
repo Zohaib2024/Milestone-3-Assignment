@@ -1,73 +1,69 @@
+"use client";
+import { useEffect, useState } from "react";
 import CommentSection from "@/app/components/CommentSection";
 import Image from "next/image";
 
-// Dummy data
-const dummyData = [
-  {
-    id: "1",
-    name: "Hassan",
-    topic: "Web 3.0",
-    img: "/web3.0.jpg",
-    description:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem debitis cum, laborum iusto hic magnam eligendi quidem natus aut, ullam corporis repudiandae deleniti animi ratione!",
-  },
-  {
-    id: "2",
-    name: "Dr. Abdul Matloob",
-    topic: "UX/UI",
-    img: "/UIUX.jpg",
-    description:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem debitis cum, laborum iusto hic magnam eligendi quidem natus aut, ullam corporis repudiandae deleniti animi ratione!",
-  },
-  {
-    id: "3",
-    name: "Zohaib",
-    topic: "Node.Js",
-    img: "/node-js.jpg",
-    description:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem debitis cum, laborum iusto hic magnam eligendi quidem natus aut, ullam corporis repudiandae deleniti animi ratione!",
-  },
-  {
-    id: "4",
-    name: "Sir Ali Jawaid",
-    topic: "Next.Js",
-    img: "/nextjs.jpeg",
-    description:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem debitis cum, laborum iusto hic magnam eligendi quidem natus aut, ullam corporis repudiandae deleniti animi ratione!",
-  },
-  {
-    id: "5",
-    name: "Ameen Alam",
-    topic: "React.Js",
-    img: "/react js.jpg",
-    description:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem debitis cum, laborum iusto hic magnam eligendi quidem natus aut, ullam corporis repudiandae deleniti animi ratione!",
-  },
-  {
-    id: "6",
-    name: "Sir Okasha",
-    topic: "Front End Development",
-    img: "/frontend.jpg",
-    description:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem debitis cum, laborum iusto hic magnam eligendi quidem natus aut, ullam corporis repudiandae deleniti animi ratione!",
-  },
-];
-
-// Find user by ID
-const getUserById = (id: string) => dummyData.find((user) => user.id === id);
+type Photo = {
+  id: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+};
 
 type PageProps = {
   params: { id: string };
 };
 
 export default function Page({ params }: PageProps) {
-  const user = getUserById(params.id);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!user) {
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/photos?_limit=6"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch photos");
+        }
+        const data = await response.json();
+        setPhotos(data);
+      } catch (err) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPhotos();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-gray-500 font-bold text-xl">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-red-500 font-bold text-xl">Error</h1>
-        <p>User not found. Please try again later.</p>
+        <p>Failed to load photos. Please try again later.</p>
+      </div>
+    );
+  }
+
+  const photo = photos.find((photo) => photo.id.toString() === params.id);
+
+  if (!photo) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-red-500 font-bold text-xl">Error</h1>
+        <p>Photo not found. Please try again later.</p>
       </div>
     );
   }
@@ -76,8 +72,10 @@ export default function Page({ params }: PageProps) {
     <div className="container mx-auto p-4 lg:p-10">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">{user.topic}</h1>
-        <p className="text-lg text-gray-600">Written by {user.name}</p>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          Blog {photo.id}
+        </h1>
+        <p className="text-lg text-gray-600">{photo.title}</p>
       </div>
 
       {/* Content Section */}
@@ -85,15 +83,17 @@ export default function Page({ params }: PageProps) {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           <Image
             className="h-auto w-full mb-5"
-            src={user.img}
-            width={200}
-            height={100}
-            alt={user.name}
+            src={photo.url}
+            width={400}
+            height={400}
+            alt={photo.title}
           />
-          About This Topic
+          About This Photo
         </h2>
         <p className="text-gray-800 leading-relaxed text-justify">
-          {user.description}
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, harum
+          dolorem praesentium itaque qui recusandae assumenda, libero veniam
+          odit impedit a, et error deleniti quae ullam. Porro ut iste fuga. .
         </p>
       </div>
       <CommentSection />
@@ -102,7 +102,7 @@ export default function Page({ params }: PageProps) {
           href="/"
           className="bg-black text-white px-6 py-2 rounded-lg shadow hover:bg-gray-600 transition"
         >
-          Go Back to Blogs
+          Go Back to Photos
         </a>
       </div>
     </div>
